@@ -42,6 +42,3 @@ resource "aws_instance" "dtcc-gpt-innovation-demo" {
     Name = "dtcc-gpt-innovation-demo"
   }
 }
-``` 
-
-This should create a new security group with open ports for SSH and Streamlit, and launch a new EC2 instance of type g4dn.xlarge with libraries installed. It will also associate public IP address and use the specified VPC ID and subnet ID. Finally, it will use the `role_EC2accessViaSSM` IAM role and use user_data to install the required libraries
