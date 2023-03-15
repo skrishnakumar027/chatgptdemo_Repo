@@ -1,6 +1,6 @@
 resource "aws_security_group" "dtcc-gpt-innovation-demo-security-group" {
   name_prefix = "dtcc-gpt-innovation-demo-security-group"
-  vpc_id      = "vpc-0a141f878afe30780" 
+  vpc_id       = "vpc-0a141f878afe30780" 
 
   egress {
     from_port   = 0
