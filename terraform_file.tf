@@ -1,7 +1,3 @@
-provider "aws" {
-  region = "us-east-2"
-}
-
 resource "aws_security_group" "example" {
   name        = "dtcc-gpt-demo-innovation-security-group"
   description = "Allow incoming traffic on ports 22 and 8501"
