@@ -1,5 +1,5 @@
 resource "aws_security_group" "demo-sg" {
-  name        = "demo-sg-krishna"
+  name        = "demo-sg-krish"
   description = "allow ssh and http traffic"
 
   ingress {
