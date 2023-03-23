@@ -1,29 +1,32 @@
+# Define VPC security group
 resource "aws_security_group" "dtcc-gpt-innovation-demo-security-group" {
   name_prefix = "dtcc-gpt-innovation-demo-security-group"
-  vpc_id = "vpc-0a141f878afe30780"
 
   ingress {
     from_port = 22
-    to_port = 22
-    protocol = "tcp"
+    to_port   = 22
+    protocol  = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
 
   ingress {
     from_port = 8501
-    to_port = 8501
-    protocol = "tcp"
+    to_port   = 8501
+    protocol  = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
 
   egress {
     from_port = 0
-    to_port = 0
-    protocol = "-1"
+    to_port   = 0
+    protocol  = "-1"
     cidr_blocks = ["0.0.0.0/0"]
   }
+
+  vpc_id = "vpc-0a141f878afe30780"
 }
 
+# Launch EC2 instance
 resource "aws_instance" "dtcc-gpt-innovation-demo" {
   ami = "ami-0a606d8395a538502"
   instance_type = "g4dn.xlarge"
@@ -32,15 +35,14 @@ resource "aws_instance" "dtcc-gpt-innovation-demo" {
   associate_public_ip_address = true
   iam_instance_profile = "role_EC2accessViaSSM"
 
-  user_data = <<-EOF
-              #!/bin/bash
-              pip install tensorflow
-              pip install transformers
-              pip install streamlit
-              EOF
-              
   tags = {
     Name = "dtcc-gpt-innovation-demo"
   }
+
+  # Install libraries via user_data
+  user_data = <<-EOF
+              #!/bin/bash
+              pip install tensorflow transformers streamlit
+              EOF
 }
 ``
