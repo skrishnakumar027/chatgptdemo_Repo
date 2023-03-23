@@ -1,19 +1,18 @@
-resource "aws_security_group" "demo_sg" {
+resource "aws_security_group" "dtcc-gpt-innovation-demo-security-group" {
   name_prefix = "dtcc-gpt-innovation-demo-security-group"
-
-  vpc_id = "vpc-0a141f878afe30780"
+  vpc_id      = "vpc-0a141f878afe30780"
 
   ingress {
-    from_port   = 22
-    to_port     = 22
-    protocol    = "tcp"
+    from_port = 22
+    to_port   = 22
+    protocol  = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
 
   ingress {
-    from_port   = 8501
-    to_port     = 8501
-    protocol    = "tcp"
+    from_port = 8501
+    to_port   = 8501
+    protocol  = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
 
@@ -25,28 +24,20 @@ resource "aws_security_group" "demo_sg" {
   }
 }
 
-resource "aws_instance" "demo_instance" {
+resource "aws_instance" "dtcc-gpt-innovation-demo" {
   ami           = "ami-0a606d8395a538502"
   instance_type = "g4dn.xlarge"
-  subnet_id     = "subnet-0c983406b03e8b798"
-
-  vpc_security_group_ids = [aws_security_group.demo_sg.id]
-
-  iam_instance_profile = "role_EC2accessViaSSM"
-
-  tags = {
-    Name = "dtcc-gpt-innovation-demo"
-  }
-
   associate_public_ip_address = true
-
+  subnet_id     = "subnet-0c983406b03e8b798"
+  vpc_security_group_ids = [ 
+    aws_security_group.dtcc-gpt-innovation-demo-security-group.id 
+  ]
+  iam_instance_profile = "role_EC2accessViaSSM"
   user_data = <<EOF
               #!/bin/bash
-              sudo apt update -y
-              sudo apt install python3-pip -y
-              sudo pip3 install tensorflow transformers streamlit
+              sudo pip install tensorflow
+              sudo pip install transformers
+              sudo pip install streamlit
               EOF
 }
-``` 
-
-Note: Please replace the values for the VPC ID, subnet ID, IAM role, and other resource attributes as per your requirements
+``
